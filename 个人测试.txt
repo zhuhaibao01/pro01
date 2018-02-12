@@ -1,0 +1,201 @@
+
+1.axuress
+2.get是网页传值的一种方式，它能够将紧跟在域名第一个问号后的值或者&符号后面的值以GET数组形式接收。
+  
+r=requests.get(url='http://www.itwhy.org')   # 最基本的get请求
+
+
+http://10.10.100.163:8080/ucenter/region/findRegionByParentCode?parentCode=110000
+r=requests.get(url='http://dict.baiddu.com/s',params={'wd':'python'})
+
+
+http://10.10.100.205:7070/ucenter/member/login?cMob=13001215228&cPass=123456
+
+----------------------------------------------------------------
+result.jtl
+
+jmeter -n -t test.jmx -l //test.jtl -e -o /home
+ 
+
+-n表示以nogui方式运行测试计划
+-t表示测试计划，后面跟测试计划名称
+-l表示测试结果，后面跟测试结果文件名称
+-e测试结束后，生成测试报告
+-o制定测试报告的存放位置。
+-o 指定的文件及文件夹，必须不存在 ，否则执行会失败，对应上面的命令就是resultReport文件夹必须不存在否则报错
+
+
+jmeter -n -t test.jmx -l test.jtl -e -o /data/resultReport
+
+jmeter -n -t test.jmx -e -o /data/result
+jmeter -n -t test.jmx -l test.jtl -e -o /data/resultReport
+
+
+--------------------------------------------------
+问题1 
+Error in NonGUIDriver java.lang.RuntimeException: Could not find the TestPlan class!
+---------------------------------------------------
+问题2
+执行sh脚本
+./文件名.sh
+------------------------------------------------
+问题3
+权限不够
+chmod 777 文件名
+--------------------------------------------------
+问题4
+#!/bin/sh
+
+DATE=$(date +%Y%m%d%H%M%S)
+mkdir ${DATE}
+jmeter -n -t $1 -l /data/apache-jmeter-3.1/bin/${DATE}/test.jtl
+NAME=$(date +%H%M%S)
+cp jmeter.log ./${DATE}
+cd ${DATE}
+mv jmeter.log ./jmeter${NAME}.log
+
+--------------------------------------------------------------
+问题5
+远程登陆到linux后，怎么把linux里的文件夹下载到windows系统里?
+
+1.安装一个xshell
+2.再安装一个xftp
+3.在xshell里点击文件传输就行了。
+-----------------------------------------------------------------
+
+问题6
+怎么查看生成的html文件报告
+
+1.把生成的jmeter报告放在/data/www/目录下
+2.在window浏览器里，输入http://10.10.100.207/resultReport/直接可以访问到index.html网页。
+
+-------------------------------------------------------------------
+
+
+excel写接口
+
+1.安装python
+2.安装Django,(pip install Django==2.0.1)
+  检验是否安装成功。
+  在cmd的python命令下
+  import django
+  django.get_version()     如果出Django的结果为2.0.1，说明是正确的。
+  
+3.安装pycharm
+
+4.在p'y
+  
+-----------------------------------------------------------------
+问题 7   request.get()请求怎么用，如果url是个json格式的怎么办？
+
+1. 正常的url直接用requests.get('url'),即可以请求。
+2. 带有json格式的，get请求中一般使用params关键字，以一个字典来传递这些参数。例如：
+content={'pageIndex':1,'pageSize':10,'categoryId':9}
+r=request.get(url,params=content)
+http://www.xxx.com/api/v2/activities?pageIndex=1&pageSize=10&categoryId=9
+print (r.url)
+print (r.text)
+
+-----------------------------------------------------------------------------
+问题8 ：当前路径下的test_report文件下生成的html没有用例执行数据。
+
+解决方法：看用例的名称是否合理，中间不能有-号
+
+-------------------------------------------------------------------
+
+问题9 ：什么是json格式？
+
+json格式  是一个 花括号｛｝，中间包含的是多个“名称的值”的记录。
+
+｛"firstName":"Brett","lastName":"Mclaughlin","emall":"aaa"｝
+
+多条记录组成分在一起：  一个people的变量，值是包含三个条目的数组
+｛
+   "people":[
+   ｛"firstName":"Brett","lastName":"Mclaughlin","emall":"aaa"｝,
+   ｛"firstName":"Jason","lastName":"Hunter","emall":"bbb"｝,
+   ｛"firstName":"Elliotte","lastName":"Harold","emall":"ccc"｝,
+   ]
+ ｝
+
+ 多个变量时
+ 
+ { "programmers": [
+
+{ "firstName": "Brett", "lastName":"McLaughlin", "email": "aaaa" },
+
+{ "firstName": "Jason", "lastName":"Hunter", "email": "bbbb" },
+
+{ "firstName": "Elliotte", "lastName":"Harold", "email": "cccc" }
+
+],
+
+"authors": [
+
+{ "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" },
+
+{ "firstName": "Tad", "lastName": "Williams", "genre": "fantasy" },
+
+{ "firstName": "Frank", "lastName": "Peretti", "genre": "christian fiction" }
+
+],
+
+"musicians": [
+
+{ "firstName": "Eric", "lastName": "Clapton", "instrument": "guitar" },
+
+{ "firstName": "Sergei", "lastName": "Rachmaninoff", "instrument": "piano" }
+
+] }
+
+print(people['musicians'][0]['firstName'])
+1.people['musicians']请求的是所有musicians变量的数组
+2.people['musicians'][0]请求的是第一个数组
+3.people['musicians'][0]['firstName']请求的是最后一个数组的变量。
+
+
+-----------------------------------------------------------------------
+问题10 json与dict是一样的吗
+json格式是 d=｛"A":1,"B":2｝是一个花括号，里面的值是以键值对的形式出现。 A和B的字符串必须是单引号。
+
+dict格式是 d={'A':1,'B':2} 是一个花括号，里面的值是以键值对的形式出现。 A 和B的字符串必须是双引号。
+
+
+---------------------------------------------------------------
+问题11 python  中 dict与 str的转换
+
+ dumps是将dict转化成str格式，loads是将str转化成dict格式。
+ 
+ 例子： json.dupms(a) ，结果为str
+        json.loads(a) ,结果为loads
+-----------------------------------------------------------------
+
+问题12 range(1,5)表示什么意思？ range(5)表示什么意思？
+
+ for i in range(1,5)      表示1起始到5，但不包含5 
+    print(i)
+结果是1，2，3，4
+ for i in range(5)        表示5个长度，从0开始。 
+    print(i)
+结果是(0,1,2,3,4)
+
+------------------------------------------------------------------
+
+问题13 head里的数据是什么，怎么理解。
+
+例如：headers = {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+               'X-Requested-With':'XMLHttpRequest',
+               'Connection':'keep-alive',
+               'Referer':'http://' + api_host,
+               'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36'}
+
+
+  -------------------------------------------------------------------
+问题14 
+ if __name__=='__main__':
+ 
+ ---------------------------------------------------------------------
+ 
+ post 请求的
+
+
